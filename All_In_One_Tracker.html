@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Tracker - Apple Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --primary-light: #5AC8FA;
+            --primary-dark: #0051D0;
+            --secondary-color: #FF3B30;
+            --accent-color: #FF9500;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --error-color: #FF3B30;
+            --info-color: #007AFF;
+            --background: #F2F2F7;
+            --surface: #FFFFFF;
+            --surface-variant: #F2F2F7;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --text-disabled: #C7C7CC;
+            --divider: #E5E5EA;
+            --outline: #E5E5EA;
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            --elevation-4: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            --elevation-8: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #0A84FF;
+            --primary-light: #64D2FF;
+            --primary-dark: #0040DD;
+            --secondary-color: #FF453A;
+            --accent-color: #FF9F0A;
+            --success-color: #32D74B;
+            --warning-color: #FF9F0A;
+            --error-color: #FF453A;
+            --info-color: #0A84FF;
+            --background: #000000;
+            --surface: #1C1C1E;
+            --surface-variant: #2C2C2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --text-disabled: #48484A;
+            --divider: #38383A;
+            --outline: #38383A;
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+            --elevation-2: 0 3px 6px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.5);
+            --elevation-4: 0 10px 20px rgba(0, 0, 0, 0.5), 0 6px 6px rgba(0, 0, 0, 0.6);
+            --elevation-8: 0 14px 28px rgba(0, 0, 0, 0.6), 0 10px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.47;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Material Design Header */
+        .header {
+            background: var(--surface);
+            box-shadow: var(--elevation-2);
+            padding: 24px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.05em;
+        }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 2px;
+            font-weight: 400;
+            margin-bottom: 0;
+            opacity: 0.8;
+        }
+
+        /* Theme Toggle Slider */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .theme-slider {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            background: var(--outline);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .theme-slider:focus {
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .theme-slider.active {
+            background: var(--primary-color);
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-slider.active::before {
+            transform: translateX(28px);
+        }
+
+        .theme-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.sun {
+            left: 6px;
+            opacity: 0;
+        }
+
+        .theme-icon.moon {
+            right: 6px;
+            opacity: 1;
+        }
+
+        .theme-slider.active .theme-icon.sun {
+            opacity: 1;
+        }
+
+        .theme-slider.active .theme-icon.moon {
+            opacity: 0;
+        }
+
+        .theme-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--surface);
+            margin: 24px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--elevation-1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--divider);
+        }
+
+        .upload-section.compact {
+            padding: 12px 20px;
+            margin: 16px 24px;
+        }
+
+        .upload-section:hover {
+            box-shadow: var(--elevation-2);
+            transform: translateY(-1px);
+        }
+
+        #fileInput {
+            width: 100%;
+            padding: 24px 16px;
+            border: 2px dashed var(--outline);
+            border-radius: 10px;
+            background: var(--surface-variant);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        #fileInput.compact {
+            padding: 12px 16px;
+            font-size: 0.8rem;
+        }
+
+        #fileInput::before {
+            content: '📂';
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        #fileInput.compact::before {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        #fileInput:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 122, 255, 0.04);
+            color: var(--primary-color);
+        }
+
+        [data-theme="dark"] #fileInput:hover {
+            background: rgba(10, 132, 255, 0.1);
+        }
+
+        .file-status {
+            display: none;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            border-radius: 6px;
+            color: var(--success-color);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .file-status {
+            background: rgba(50, 215, 75, 0.15);
+            border: 1px solid rgba(50, 215, 75, 0.4);
+        }
+
+        .file-status.show {
+            display: block;
+        }
+
+        /* KPI Cards */
+        .kpi-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 24px;
+        }
+
+        .kpi-card {
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--elevation-1);
+            transition: all 0.2s ease;
+            border: 1px solid var(--divider);
+        }
+
+        .kpi-card:hover {
+            box-shadow: var(--elevation-2);
+            transform: translateY(-1px);
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.8;
+        }
+
+        .kpi-positive { 
+            color: var(--success-color); 
+        }
+        .kpi-negative { 
+            color: var(--error-color); 
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin: 24px;
+        }
+
+        /* Chart Containers */
+        .chart-container {
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--elevation-1);
+            height: 400px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--divider);
+        }
+
+        .chart-container:hover {
+            box-shadow: var(--elevation-2);
+            transform: translateY(-1px);
+        }
+
+        .chart-container h3 {
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            font-size: 1.1875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .chart-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .enlarge-btn {
+            background: var(--surface-variant);
+            border: 1px solid var(--outline);
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .enlarge-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .enlarge-btn::before {
+            content: '⛶';
+            font-size: 0.875rem;
+        }
+
+        /* Modal Styles */
+        .chart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            width: 90vw;
+            height: 85vh;
+            max-width: 1200px;
+            box-shadow: var(--elevation-8);
+            border: 1px solid var(--divider);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .close-btn {
+            background: var(--surface-variant);
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .close-btn:hover {
+            background: var(--error-color);
+            border-color: var(--error-color);
+            color: white;
+        }
+
+        .modal-chart-container {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+
+        .modal-chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-container canvas {
+            max-height: 320px;
+        }
+
+        .chart-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 16px;
+            font-weight: 400;
+        }
+
+        /* Table Section */
+        .table-section {
+            background: var(--surface);
+            margin: 24px;
+            border-radius: 12px;
+            box-shadow: var(--elevation-1);
+            overflow: hidden;
+            border: 1px solid var(--divider);
+        }
+
+        .table-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--divider);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: var(--surface);
+        }
+
+        .table-header h2 {
+            color: var(--text-primary);
+            font-size: 1.1875rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box, .filter-select {
+            padding: 10px 14px;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 400;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .search-box {
+            min-width: 240px;
+        }
+
+        .search-box:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            border-width: 2px;
+            padding: 9px 13px;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        [data-theme="dark"] .search-box:focus,
+        [data-theme="dark"] .filter-select:focus {
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-disabled);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background: var(--surface-variant);
+            color: var(--text-primary);
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--divider);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        th:hover {
+            background: var(--divider);
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--divider);
+            font-weight: 400;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        [data-theme="dark"] tbody tr:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .positive { 
+            color: var(--success-color); 
+            font-weight: 500;
+        }
+        .negative { 
+            color: var(--error-color); 
+            font-weight: 500;
+        }
+
+        /* Pagination */
+        .pagination {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--divider);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--outline);
+            background: var(--surface);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--surface-variant);
+            border-color: var(--text-secondary);
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .pagination-btn.active:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* Error States */
+        .error {
+            color: var(--error-color);
+            text-align: center;
+            padding: 16px;
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 6px;
+            margin: 16px 0;
+            font-weight: 400;
+        }
+
+        [data-theme="dark"] .error {
+            background: rgba(255, 69, 58, 0.15);
+            border: 1px solid rgba(255, 69, 58, 0.4);
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-secondary);
+        }
+
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--divider);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header {
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .theme-toggle {
+                align-self: flex-end;
+                margin-top: 8px;
+            }
+            
+            .table-controls {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .search-box {
+                min-width: 200px;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .upload-section, .kpi-section, .dashboard, .table-section {
+                margin: 16px;
+            }
+
+            .upload-section.compact {
+                margin: 12px 16px;
+            }
+
+            .chart-container canvas {
+                max-height: 220px;
+            }
+        }
+
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Material Design Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-variant);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-disabled);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Focus indicators */
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Portfolio Analytics</h1>
+            <div class="header-subtitle">Mutual fund tracking and performance analysis</div>
+        </div>
+        <div class="theme-toggle">
+            <span class="theme-label" id="themeLabel">Dark Mode</span>
+            <button class="theme-slider" onclick="toggleTheme()" id="themeSlider">
+                <span class="theme-icon sun">☀️</span>
+                <span class="theme-icon moon">🌙</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+        <input type="file" id="fileInput" accept=".csv" placeholder="Drop your Holdings.csv file here or click to browse">
+        <div class="file-status" id="fileStatus">
+            ✅ File uploaded successfully
+        </div>
+        <div id="error-message" class="error" style="display: none;"></div>
+    </div>
+
+    <!-- KPI Section -->
+    <div id="kpi-section" class="kpi-section" style="display: none;">
+        <div class="kpi-card">
+            <div id="totalInvested" class="kpi-value">₹0</div>
+            <div class="kpi-label">Total Invested</div>
+        </div>
+        <div class="kpi-card">
+            <div id="currentValue" class="kpi-value">₹0</div>
+            <div class="kpi-label">Current Value</div>
+        </div>
+        <div class="kpi-card">
+            <div id="totalPnL" class="kpi-value">₹0</div>
+            <div class="kpi-label">Total P&L</div>
+        </div>
+        <div class="kpi-card">
+            <div id="overallReturn" class="kpi-value">0%</div>
+            <div class="kpi-label">Overall Return</div>
+        </div>
+        <div class="kpi-card">
+            <div id="overallXIRR" class="kpi-value">0%</div>
+            <div class="kpi-label">Overall XIRR</div>
+        </div>
+        <div class="kpi-card">
+            <div id="fundCount" class="kpi-value">0</div>
+            <div class="kpi-label">Total Funds</div>
+        </div>
+    </div>
+
+    <!-- Dashboard Charts -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <div class="chart-container">
+            <h3>
+                <span class="chart-title">Performance vs Market Indices</span>
+                <button class="enlarge-btn" onclick="enlargeChart('comparisonChart', 'Performance vs Market Indices')">Enlarge</button>
+            </h3>
+            <canvas id="comparisonChart"></canvas>
+            <p class="chart-subtitle">1-year returns comparison • Data as of August 2025</p>
+        </div>
+        <div class="chart-container">
+            <h3>
+                <span class="chart-title">Top 10 Fund Allocation</span>
+                <button class="enlarge-btn" onclick="enlargeChart('portfolioPieChart', 'Top 10 Fund Allocation')">Enlarge</button>
+            </h3>
+            <canvas id="portfolioPieChart"></canvas>
+            <p class="chart-subtitle">Funds sorted by allocation percentage • Top performers shown</p>
+        </div>
+        <div class="chart-container">
+            <h3>
+                <span class="chart-title">Performance Trends Over Time</span>
+                <button class="enlarge-btn" onclick="enlargeChart('secondComparisonChart', 'Performance Trends Over Time')">Enlarge</button>
+            </h3>
+            <canvas id="secondComparisonChart"></canvas>
+            <p class="chart-subtitle">12-month trend analysis • Portfolio vs market indices comparison</p>
+        </div>
+    </div>
+
+    <!-- Data Table Section -->
+    <div id="table-section" class="table-section" style="display: none;">
+        <div class="table-header">
+            <h2>Fund Performance Details</h2>
+            <div class="table-controls">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search funds...">
+                <select id="categoryFilter" class="filter-select">
+                    <option value="">All Categories</option>
+                </select>
+                <select id="rowsPerPage" class="filter-select">
+                    <option value="10">10 rows</option>
+                    <option value="25" selected>25 rows</option>
+                    <option value="50">50 rows</option>
+                    <option value="100">100 rows</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="performanceTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Fund Name</th>
+                        <th onclick="sortTable(1)">Category</th>
+                        <th onclick="sortTable(2)">Invested Amt</th>
+                        <th onclick="sortTable(3)">Current Value</th>
+                        <th onclick="sortTable(4)">P&L</th>
+                        <th onclick="sortTable(5)">P&L %</th>
+                        <th onclick="sortTable(6)">XIRR %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pagination">
+            <div class="pagination-info" id="paginationInfo">Showing 0 of 0 entries</div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="prevPage" onclick="changePage(-1)">Previous</button>
+                <span id="pageNumbers"></span>
+                <button class="pagination-btn" id="nextPage" onclick="changePage(1)">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Modal -->
+    <div id="chartModal" class="chart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Chart Title</h2>
+                <button class="close-btn" onclick="closeModal()">Close ✕</button>
+            </div>
+            <div class="modal-chart-container">
+                <canvas id="modalChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+        let portfolioPieChart, comparisonChart, secondComparisonChart;
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        let rowsPerPage = 25;
+        let sortColumn = -1;
+        let sortDirection = 'asc';
+
+        // Theme functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeSlider = document.getElementById('themeSlider');
+            const themeLabel = document.getElementById('themeLabel');
+            
+            if (body.dataset.theme === 'dark') {
+                body.dataset.theme = 'light';
+                themeSlider.classList.remove('active');
+                themeLabel.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.dataset.theme = 'dark';
+                themeSlider.classList.add('active');
+                themeLabel.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme from localStorage
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const body = document.body;
+            const themeSlider = document.getElementById('themeSlider');
+            const themeLabel = document.getElementById('themeLabel');
+            
+            body.dataset.theme = savedTheme;
+            
+            if (savedTheme === 'dark') {
+                themeSlider.classList.add('active');
+                themeLabel.textContent = 'Light Mode';
+            } else {
+                themeSlider.classList.remove('active');
+                themeLabel.textContent = 'Dark Mode';
+            }
+        }
+
+        // Initialize theme on page load
+        initializeTheme();
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const errorMessage = document.getElementById('error-message');
+            const fileStatus = document.getElementById('fileStatus');
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+            fileStatus.classList.remove('show');
+
+            if (!file) return;
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    let filteredData = results.data.filter(row => {
+                        return Object.values(row).some(val => 
+                            val !== null && 
+                            val !== undefined && 
+                            String(val).trim() !== ''
+                        );
+                    });
+
+                    if (filteredData.length === 0) {
+                        showError('Error: No data found in the file.');
+                        return;
+                    }
+
+                    try {
+                        processData(filteredData);
+                        showDashboard();
+                    } catch (error) {
+                        showError(`Error: ${error.message}. Please check your CSV file and column headers.`);
+                        console.error(error);
+                    }
+                }
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Hide file status if there's an error
+            const fileStatus = document.getElementById('fileStatus');
+            fileStatus.classList.remove('show');
+        }
+
+        function showDashboard() {
+            // Show dashboard sections
+            document.getElementById('kpi-section').style.display = 'grid';
+            document.getElementById('dashboard').style.display = 'grid';
+            document.getElementById('table-section').style.display = 'block';
+            
+            // Compact the upload section
+            const uploadSection = document.getElementById('uploadSection');
+            const fileInput = document.getElementById('fileInput');
+            const fileStatus = document.getElementById('fileStatus');
+            
+            uploadSection.classList.add('compact');
+            fileInput.classList.add('compact');
+            fileStatus.classList.add('show');
+            
+            // Update file input text for compact mode
+            fileInput.placeholder = "File uploaded successfully - Click to change file";
+            
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('categoryFilter').addEventListener('change', handleFilter);
+            document.getElementById('rowsPerPage').addEventListener('change', handleRowsPerPageChange);
+        }
+
+        function findHeader(headers, possibleNames) {
+            for (const name of possibleNames) {
+                const foundHeader = headers.find(h => h.toLowerCase().trim() === name.toLowerCase());
+                if (foundHeader) return foundHeader;
+            }
+            return null;
+        }
+
+        function processData(data) {
+            allData = [];
+            let totalInvested = 0;
+            let totalCurrentValue = 0;
+            const categories = new Set();
+
+            const allHeaders = Object.keys(data[0]);
+            
+            const headerMapping = {
+                fundName: findHeader(allHeaders, ["Fund Name", "Bandhan Small Cap Fund"]),
+                category: findHeader(allHeaders, ["Category", "Equity"]),
+                investedAmt: findHeader(allHeaders, ["Invested Amt", "8499.61"]),
+                currentValue: findHeader(allHeaders, ["Current Value", "8562.56"]),
+                weight: findHeader(allHeaders, ["Weight %", "4.08"]),
+                pnl: findHeader(allHeaders, ["P&L", "62.95"]),
+                pnlPercent: findHeader(allHeaders, ["P&L %", "0.74"]),
+                xirr: findHeader(allHeaders, ["XIRR %", "6.37"]),
+                investedSince: findHeader(allHeaders, ["Invested Since", "2025-06-02"])
+            };
+            
+            const missingHeaders = Object.entries(headerMapping).filter(([key, value]) => !value);
+            if (missingHeaders.length > 0) {
+                throw new Error(`The following required columns are missing: ${missingHeaders.map(h => h[0]).join(', ')}`);
+            }
+            
+            data.forEach(row => {
+                const fundName = String(row[headerMapping.fundName] || '').trim();
+                const investedAmtStr = String(row[headerMapping.investedAmt] || '').trim();
+                
+                if (fundName && 
+                    fundName.toLowerCase() !== 'total' && 
+                    investedAmtStr && 
+                    investedAmtStr !== '0' &&
+                    !isNaN(parseFloat(investedAmtStr.replace(/,/g, '')))) {
+                    
+                    const investedAmt = parseFloat(investedAmtStr.replace(/,/g, ''));
+                    const currentValue = parseFloat(String(row[headerMapping.currentValue] || '0').replace(/,/g, ''));
+                    const pAndL = parseFloat(String(row[headerMapping.pnl] || '0').replace(/,/g, ''));
+                    const pAndLPercent = parseFloat(String(row[headerMapping.pnlPercent] || '0').replace(/,/g, ''));
+                    const xirr = parseFloat(String(row[headerMapping.xirr] || '0').replace(/,/g, ''));
+                    const category = String(row[headerMapping.category] || 'Other').trim();
+                    const weight = parseFloat(String(row[headerMapping.weight] || '0').replace(/,/g, ''));
+
+                    totalInvested += investedAmt;
+                    totalCurrentValue += currentValue;
+                    categories.add(category);
+
+                    allData.push({
+                        "Fund Name": fundName,
+                        "Category": category,
+                        "Invested Amt": investedAmt,
+                        "Current Value": currentValue,
+                        "P&L": pAndL,
+                        "P&L %": pAndLPercent,
+                        "XIRR %": xirr,
+                        "Weight %": weight
+                    });
+                }
+            });
+
+            filteredData = [...allData];
+            
+            // Update KPIs
+            updateKPIs(totalInvested, totalCurrentValue, allData.length);
+            
+            // Populate category filter
+            populateCategoryFilter(categories);
+            
+            // Create charts
+            createCharts();
+            
+            // Display table
+            displayTable();
+        }
+
+        function updateKPIs(totalInvested, totalCurrentValue, fundCount) {
+            const totalPnL = totalCurrentValue - totalInvested;
+            const overallReturn = totalInvested > 0 ? ((totalCurrentValue - totalInvested) / totalInvested * 100) : 0;
+            
+            // Calculate weighted average XIRR
+            const totalWeight = allData.reduce((sum, fund) => sum + fund["Weight %"], 0);
+            const weightedXIRR = totalWeight > 0 ? 
+                allData.reduce((sum, fund) => sum + (fund["XIRR %"] * fund["Weight %"]), 0) / totalWeight : 0;
+
+            document.getElementById('totalInvested').textContent = formatCurrency(totalInvested);
+            document.getElementById('currentValue').textContent = formatCurrency(totalCurrentValue);
+            
+            const pnlElement = document.getElementById('totalPnL');
+            pnlElement.textContent = formatCurrency(totalPnL);
+            pnlElement.className = `kpi-value ${totalPnL >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            const returnElement = document.getElementById('overallReturn');
+            returnElement.textContent = overallReturn.toFixed(2) + '%';
+            returnElement.className = `kpi-value ${overallReturn >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            const xirrElement = document.getElementById('overallXIRR');
+            xirrElement.textContent = weightedXIRR.toFixed(2) + '%';
+            xirrElement.className = `kpi-value ${weightedXIRR >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            document.getElementById('fundCount').textContent = fundCount;
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + Math.abs(amount).toLocaleString('en-IN', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        function populateCategoryFilter(categories) {
+            const select = document.getElementById('categoryFilter');
+            select.innerHTML = '<option value="">All Categories</option>';
+            
+            Array.from(categories).sort().forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                select.appendChild(option);
+            });
+        }
+
+        function createCharts() {
+            if (portfolioPieChart) portfolioPieChart.destroy();
+            if (comparisonChart) comparisonChart.destroy();
+
+            // Performance comparison chart
+            const totalInvested = allData.reduce((sum, fund) => sum + fund["Invested Amt"], 0);
+            const totalCurrentValue = allData.reduce((sum, fund) => sum + fund["Current Value"], 0);
+            const portfolioReturn = ((totalCurrentValue - totalInvested) / totalInvested) * 100;
+            
+            createComparisonChart(portfolioReturn);
+            createSecondComparisonChart(portfolioReturn);
+            
+            // Portfolio allocation pie chart
+            const fundNames = allData.map(fund => fund["Fund Name"]);
+            const weights = allData.map(fund => fund["Weight %"]);
+            createPieChart(fundNames, weights);
+        }
+
+        function createComparisonChart(portfolioReturn) {
+            // Multiple index returns (1-year returns as of Aug 2025)
+            const indexReturns = {
+                'NIFTY 50': -1.78,
+                'NIFTY 500': 2.45,
+                'NIFTY SMALLCAP': 8.23,
+                'NIFTY NEXT 50': 1.12,
+                'NIFTY MIDCAP': 5.67
+            };
+            
+            const labels = ['Your Portfolio', ...Object.keys(indexReturns)];
+            const data = [portfolioReturn, ...Object.values(indexReturns)];
+            
+            // Apple Design colors - updated for both themes
+            const colors = [
+                '#007AFF',   // Portfolio - Apple Blue
+                '#34C759',   // NIFTY 50 - Apple Green
+                '#5AC8FA',   // NIFTY 500 - Apple Light Blue
+                '#AF52DE',   // NIFTY SMALLCAP - Apple Purple
+                '#FF9500',   // NIFTY NEXT 50 - Apple Orange
+                '#FF3B30'    // NIFTY MIDCAP - Apple Red
+            ];
+            
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Return (%)',
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            display: false 
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.9)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#424242',
+                            borderWidth: 1,
+                            cornerRadius: 4,
+                            titleFont: {
+                                size: 14,
+                                weight: '500'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                weight: '400'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed.y.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 12,
+                                    weight: '400'
+                                },
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 12,
+                                    weight: '400'
+                                },
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: '#e0e0e0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createSecondComparisonChart(portfolioReturn) {
+            // Simulated time series data over 12 months (Aug 2024 - Aug 2025)
+            const months = ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25'];
+            
+            // Simulated cumulative returns for each index over time
+            const portfolioData = [0, 1.2, -0.8, 2.1, 3.5, 2.8, 4.2, 3.9, 5.1, 4.6, 6.2, 5.8, portfolioReturn];
+            const nifty50Data = [0, -1.1, -2.3, -1.8, -0.5, -1.2, -2.1, -1.9, -2.4, -1.6, -2.2, -1.9, -1.78];
+            const nifty500Data = [0, 0.5, -0.2, 1.1, 1.8, 1.2, 2.3, 2.1, 2.8, 2.4, 3.1, 2.7, 2.45];
+            const niftySmallcapData = [0, 2.1, 1.8, 3.2, 4.5, 3.8, 5.2, 6.1, 7.3, 6.8, 8.1, 7.9, 8.23];
+            const niftyNext50Data = [0, 0.2, -0.5, 0.8, 1.2, 0.9, 1.5, 1.3, 1.8, 1.4, 1.9, 1.6, 1.12];
+            const niftyMidcapData = [0, 1.8, 1.2, 2.5, 3.8, 3.1, 4.2, 4.8, 5.9, 5.4, 6.3, 6.1, 5.67];
+            
+            const ctx = document.getElementById('secondComparisonChart').getContext('2d');
+            secondComparisonChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Your Portfolio',
+                            data: portfolioData,
+                            borderColor: '#FF6B35',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            fill: false,
+                            tension: 0.4,
+                            borderDash: [8, 4],
+                            pointStyle: 'circle',
+                            pointBackgroundColor: '#FF6B35',
+                            pointBorderColor: '#FFFFFF',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'NIFTY 50',
+                            data: nifty50Data,
+                            borderColor: '#87CEEB',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY 500',
+                            data: nifty500Data,
+                            borderColor: '#98D8C8',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY SMALLCAP',
+                            data: niftySmallcapData,
+                            borderColor: '#DDA0DD',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY NEXT 50',
+                            data: niftyNext50Data,
+                            borderColor: '#F0E68C',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY MIDCAP',
+                            data: niftyMidcapData,
+                            borderColor: '#FFA07A',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { 
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'rect',
+                                padding: 15,
+                                font: {
+                                    size: 11,
+                                    weight: '500'
+                                },
+                                color: '#757575',
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    if (data.datasets.length) {
+                                        return data.datasets.map((dataset, i) => {
+                                            return {
+                                                text: dataset.label,
+                                                fillStyle: dataset.borderColor,
+                                                strokeStyle: dataset.borderColor,
+                                                lineWidth: 0,
+                                                pointStyle: 'rect'
+                                            };
+                                        });
+                                    }
+                                    return [];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.95)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#424242',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            titleFont: {
+                                size: 14,
+                                weight: '600'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                weight: '400'
+                            },
+                            displayColors: true,
+                            callbacks: {
+                                title: function(context) {
+                                    return `${context[0].label}`;
+                                },
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Time Period',
+                                color: '#757575',
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                }
+                            },
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 11,
+                                    weight: '400'
+                                },
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            grid: {
+                                color: 'rgba(117, 117, 117, 0.1)',
+                                drawBorder: false
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Cumulative Returns (%)',
+                                color: '#757575',
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                }
+                            },
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 11,
+                                    weight: '400'
+                                },
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(117, 117, 117, 0.2)',
+                                drawBorder: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createPieChart(labels, data) {
+            // Sort funds by allocation percentage and get top 10
+            const fundData = labels.map((label, index) => ({
+                name: label,
+                weight: data[index] || 0
+            })).sort((a, b) => b.weight - a.weight).slice(0, 10);
+            
+            const sortedLabels = fundData.map(fund => fund.name);
+            const sortedData = fundData.map(fund => fund.weight);
+            
+            // Apple Design color palette - updated for both themes
+            const materialColors = [
+                '#007AFF',   // Apple Blue
+                '#34C759',   // Apple Green
+                '#FF9500',   // Apple Orange
+                '#AF52DE',   // Apple Purple
+                '#FF3B30',   // Apple Red
+                '#5AC8FA',   // Apple Light Blue
+                '#8E8E93',   // Apple Gray
+                '#6D6D70',   // Apple Dark Gray
+                '#FF2D92',   // Apple Pink
+                '#30D158'    // Apple Light Green
+            ];
+            
+            const ctx = document.getElementById('portfolioPieChart').getContext('2d');
+            portfolioPieChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedLabels.map(label => {
+                        return label.length > 25 ? label.substring(0, 22) + '...' : label;
+                    }),
+                    datasets: [{
+                        label: 'Allocation %',
+                        data: sortedData,
+                        backgroundColor: materialColors,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.9)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#424242',
+                            borderWidth: 1,
+                            cornerRadius: 4,
+                            titleFont: {
+                                size: 14,
+                                weight: '500'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                weight: '400'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.x.toFixed(2)}% allocation`;
+                                },
+                                title: function(tooltipItems) {
+                                    const index = tooltipItems[0].dataIndex;
+                                    return sortedLabels[index];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: Math.max(...sortedData) + 2,
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 12,
+                                    weight: '400'
+                                },
+                                callback: function(value) {
+                                    return value.toFixed(1) + '%';
+                                }
+                            },
+                            grid: {
+                                color: '#e0e0e0'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#757575',
+                                font: {
+                                    size: 11,
+                                    weight: '400'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            right: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            filteredData = allData.filter(fund => {
+                const matchesSearch = fund["Fund Name"].toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || fund["Category"] === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+            
+            currentPage = 1;
+            displayTable();
+        }
+
+        function handleFilter() {
+            handleSearch();
+        }
+
+        function handleRowsPerPageChange() {
+            rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
+            currentPage = 1;
+            displayTable();
+        }
+
+        function displayTable() {
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const pageData = filteredData.slice(startIndex, endIndex);
+            
+            const tableBody = document.getElementById('performanceTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+            
+            pageData.forEach(fund => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = fund["Fund Name"];
+                row.insertCell().textContent = fund["Category"];
+                row.insertCell().textContent = formatCurrency(fund["Invested Amt"]);
+                row.insertCell().textContent = formatCurrency(fund["Current Value"]);
+                
+                const pnlCell = row.insertCell();
+                pnlCell.textContent = formatCurrency(fund["P&L"]);
+                pnlCell.className = fund["P&L"] >= 0 ? 'positive' : 'negative';
+                
+                const pnlPercentCell = row.insertCell();
+                pnlPercentCell.textContent = fund["P&L %"].toFixed(2) + '%';
+                pnlPercentCell.className = fund["P&L %"] >= 0 ? 'positive' : 'negative';
+                
+                const xirrCell = row.insertCell();
+                xirrCell.textContent = fund["XIRR %"].toFixed(2) + '%';
+                xirrCell.className = fund["XIRR %"] >= 0 ? 'positive' : 'negative';
+            });
+            
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            const startEntry = (currentPage - 1) * rowsPerPage + 1;
+            const endEntry = Math.min(currentPage * rowsPerPage, filteredData.length);
+            
+            document.getElementById('paginationInfo').textContent = 
+                `Showing ${startEntry}-${endEntry} of ${filteredData.length} entries`;
+                
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages;
+            
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => {
+                    currentPage = i;
+                    displayTable();
+                };
+                pageNumbers.appendChild(btn);
+            }
+        }
+
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            const newPage = currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                displayTable();
+            }
+        }
+
+        function sortTable(columnIndex) {
+            const columns = ['Fund Name', 'Category', 'Invested Amt', 'Current Value', 'P&L', 'P&L %', 'XIRR %'];
+            const column = columns[columnIndex];
+            
+            if (sortColumn === columnIndex) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortDirection = 'asc';
+                sortColumn = columnIndex;
+            }
+            
+            filteredData.sort((a, b) => {
+                let aVal = a[column];
+                let bVal = b[column];
+                
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+                
+                if (sortDirection === 'asc') {
+                    return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                } else {
+                    return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+                }
+            });
+            
+            currentPage = 1;
+            displayTable();
+        }
+
+        // Modal functionality for chart enlargement
+        let modalChart = null;
+
+        function enlargeChart(chartId, title) {
+            const modal = document.getElementById('chartModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalCanvas = document.getElementById('modalChart');
+            
+            modalTitle.textContent = title;
+            modal.style.display = 'block';
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+            
+            // Destroy existing modal chart if any
+            if (modalChart) {
+                modalChart.destroy();
+            }
+            
+            // Get the modal context
+            const ctx = modalCanvas.getContext('2d');
+            
+            // Recreate the specific chart based on chartId
+            switch(chartId) {
+                case 'comparisonChart':
+                    createModalComparisonChart(ctx);
+                    break;
+                case 'portfolioPieChart':
+                    createModalPieChart(ctx);
+                    break;
+                case 'secondComparisonChart':
+                    createModalSecondComparisonChart(ctx);
+                    break;
+                default:
+                    console.error('Unknown chart ID:', chartId);
+                    closeModal();
+                    return;
+            }
+            
+            // Add click outside to close
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        function createModalComparisonChart(ctx) {
+            const totalInvested = allData.reduce((sum, fund) => sum + fund["Invested Amt"], 0);
+            const totalCurrentValue = allData.reduce((sum, fund) => sum + fund["Current Value"], 0);
+            const portfolioReturn = ((totalCurrentValue - totalInvested) / totalInvested) * 100;
+            
+            const indexReturns = {
+                'NIFTY 50': -1.78,
+                'NIFTY 500': 2.45,
+                'NIFTY SMALLCAP': 8.23,
+                'NIFTY NEXT 50': 1.12,
+                'NIFTY MIDCAP': 5.67
+            };
+            
+            const labels = ['Your Portfolio', ...Object.keys(indexReturns)];
+            const data = [portfolioReturn, ...Object.values(indexReturns)];
+            
+            const colors = [
+                '#007AFF', '#34C759', '#5AC8FA', '#AF52DE', '#FF9500', '#FF3B30'
+            ];
+            
+            modalChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Return (%)',
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.9)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed.y.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#757575' },
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#757575',
+                                callback: function(value) { return value + '%'; }
+                            },
+                            grid: { color: '#e0e0e0' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createModalPieChart(ctx) {
+            const fundNames = allData.map(fund => fund["Fund Name"]);
+            const weights = allData.map(fund => fund["Weight %"]);
+            
+            const fundData = fundNames.map((label, index) => ({
+                name: label,
+                weight: weights[index] || 0
+            })).sort((a, b) => b.weight - a.weight).slice(0, 10);
+            
+            const sortedLabels = fundData.map(fund => fund.name);
+            const sortedData = fundData.map(fund => fund.weight);
+            
+            const materialColors = [
+                '#007AFF', '#34C759', '#FF9500', '#AF52DE', '#FF3B30',
+                '#5AC8FA', '#8E8E93', '#6D6D70', '#FF2D92', '#30D158'
+            ];
+            
+            modalChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedLabels.map(label => {
+                        return label.length > 30 ? label.substring(0, 27) + '...' : label;
+                    }),
+                    datasets: [{
+                        label: 'Allocation %',
+                        data: sortedData,
+                        backgroundColor: materialColors,
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.9)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.x.toFixed(2)}% allocation`;
+                                },
+                                title: function(tooltipItems) {
+                                    const index = tooltipItems[0].dataIndex;
+                                    return sortedLabels[index];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#757575',
+                                callback: function(value) { return value.toFixed(1) + '%'; }
+                            },
+                            grid: { color: '#e0e0e0' }
+                        },
+                        y: {
+                            ticks: { color: '#757575' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createModalSecondComparisonChart(ctx) {
+            const totalInvested = allData.reduce((sum, fund) => sum + fund["Invested Amt"], 0);
+            const totalCurrentValue = allData.reduce((sum, fund) => sum + fund["Current Value"], 0);
+            const portfolioReturn = ((totalCurrentValue - totalInvested) / totalInvested) * 100;
+            
+            const months = ['Aug 24', 'Sep 24', 'Oct 24', 'Nov 24', 'Dec 24', 'Jan 25', 'Feb 25', 'Mar 25', 'Apr 25', 'May 25', 'Jun 25', 'Jul 25', 'Aug 25'];
+            
+            const portfolioData = [0, 1.2, -0.8, 2.1, 3.5, 2.8, 4.2, 3.9, 5.1, 4.6, 6.2, 5.8, portfolioReturn];
+            const nifty50Data = [0, -1.1, -2.3, -1.8, -0.5, -1.2, -2.1, -1.9, -2.4, -1.6, -2.2, -1.9, -1.78];
+            const nifty500Data = [0, 0.5, -0.2, 1.1, 1.8, 1.2, 2.3, 2.1, 2.8, 2.4, 3.1, 2.7, 2.45];
+            const niftySmallcapData = [0, 2.1, 1.8, 3.2, 4.5, 3.8, 5.2, 6.1, 7.3, 6.8, 8.1, 7.9, 8.23];
+            const niftyNext50Data = [0, 0.2, -0.5, 0.8, 1.2, 0.9, 1.5, 1.3, 1.8, 1.4, 1.9, 1.6, 1.12];
+            const niftyMidcapData = [0, 1.8, 1.2, 2.5, 3.8, 3.1, 4.2, 4.8, 5.9, 5.4, 6.3, 6.1, 5.67];
+            
+            modalChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Your Portfolio',
+                            data: portfolioData,
+                            borderColor: '#FF6B35',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            fill: false,
+                            tension: 0.4,
+                            borderDash: [8, 4],
+                            pointStyle: 'circle',
+                            pointBackgroundColor: '#FF6B35',
+                            pointBorderColor: '#FFFFFF',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'NIFTY 50',
+                            data: nifty50Data,
+                            borderColor: '#87CEEB',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY 500',
+                            data: nifty500Data,
+                            borderColor: '#98D8C8',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY SMALLCAP',
+                            data: niftySmallcapData,
+                            borderColor: '#DDA0DD',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY NEXT 50',
+                            data: niftyNext50Data,
+                            borderColor: '#F0E68C',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'NIFTY MIDCAP',
+                            data: niftyMidcapData,
+                            borderColor: '#FFA07A',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointRadius: 1,
+                            pointHoverRadius: 3,
+                            fill: false,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { 
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'rect',
+                                padding: 15,
+                                font: { size: 12, weight: '500' },
+                                color: '#757575',
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    if (data.datasets.length) {
+                                        return data.datasets.map((dataset, i) => {
+                                            return {
+                                                text: dataset.label,
+                                                fillStyle: dataset.borderColor,
+                                                strokeStyle: dataset.borderColor,
+                                                lineWidth: 0,
+                                                pointStyle: 'rect'
+                                            };
+                                        });
+                                    }
+                                    return [];
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(66, 66, 66, 0.95)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            callbacks: {
+                                title: function(context) { return `${context[0].label}`; },
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Time Period',
+                                color: '#757575'
+                            },
+                            ticks: { color: '#757575' },
+                            grid: { color: 'rgba(117, 117, 117, 0.1)' }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Cumulative Returns (%)',
+                                color: '#757575'
+                            },
+                            ticks: {
+                                color: '#757575',
+                                callback: function(value) { return value + '%'; }
+                            },
+                            grid: { color: 'rgba(117, 117, 117, 0.2)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('chartModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            if (modalChart) {
+                modalChart.destroy();
+                modalChart = null;
+            }
+        }
+
+        function getChartInstance(chartId) {
+            switch(chartId) {
+                case 'comparisonChart':
+                    return comparisonChart;
+                case 'portfolioPieChart':
+                    return portfolioPieChart;
+                case 'secondComparisonChart':
+                    return secondComparisonChart;
+                default:
+                    return null;
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
