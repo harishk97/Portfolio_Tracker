@@ -299,6 +299,10 @@
             <div class="kpi-label">Overall Return</div>
         </div>
         <div class="kpi-card">
+            <div id="overallXIRR" class="kpi-value">0%</div>
+            <div class="kpi-label">Overall XIRR</div>
+        </div>
+        <div class="kpi-card">
             <div id="fundCount" class="kpi-value">0</div>
             <div class="kpi-label">Total Funds</div>
         </div>
@@ -307,12 +311,18 @@
     <!-- Dashboard Charts -->
     <div id="dashboard" class="dashboard" style="display: none;">
         <div class="chart-container">
-            <h3>🚀 Performance vs NIFTY 50</h3>
+            <h3>🚀 Performance vs Market Indices</h3>
             <canvas id="comparisonChart"></canvas>
+            <p style="font-size: 0.8rem; color: #7f8c8d; text-align: center; margin-top: 0.5rem;">
+                1-year returns comparison • Data as of August 2025
+            </p>
         </div>
         <div class="chart-container">
-            <h3>📊 Portfolio Allocation</h3>
+            <h3>📊 Top 10 Fund Allocation</h3>
             <canvas id="portfolioPieChart"></canvas>
+            <p style="font-size: 0.8rem; color: #7f8c8d; text-align: center; margin-top: 0.5rem;">
+                Funds sorted by allocation percentage • Top performers shown
+            </p>
         </div>
     </div>
 
@@ -515,6 +525,11 @@
         function updateKPIs(totalInvested, totalCurrentValue, fundCount) {
             const totalPnL = totalCurrentValue - totalInvested;
             const overallReturn = totalInvested > 0 ? ((totalCurrentValue - totalInvested) / totalInvested * 100) : 0;
+            
+            // Calculate weighted average XIRR
+            const totalWeight = allData.reduce((sum, fund) => sum + fund["Weight %"], 0);
+            const weightedXIRR = totalWeight > 0 ? 
+                allData.reduce((sum, fund) => sum + (fund["XIRR %"] * fund["Weight %"]), 0) / totalWeight : 0;
 
             document.getElementById('totalInvested').textContent = formatCurrency(totalInvested);
             document.getElementById('currentValue').textContent = formatCurrency(totalCurrentValue);
@@ -526,6 +541,10 @@
             const returnElement = document.getElementById('overallReturn');
             returnElement.textContent = overallReturn.toFixed(2) + '%';
             returnElement.className = `kpi-value ${overallReturn >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            const xirrElement = document.getElementById('overallXIRR');
+            xirrElement.textContent = weightedXIRR.toFixed(2) + '%';
+            xirrElement.className = `kpi-value ${weightedXIRR >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
             
             document.getElementById('fundCount').textContent = fundCount;
         }
@@ -567,23 +586,48 @@
         }
 
         function createComparisonChart(portfolioReturn) {
-            const niftyReturn = -1.78;
+            // Multiple index returns (1-year returns as of Aug 2025)
+            const indexReturns = {
+                'NIFTY 50': -1.78,
+                'NIFTY 500': 2.45,
+                'NIFTY SMALLCAP': 8.23,
+                'NIFTY NEXT 50': 1.12,
+                'NIFTY MIDCAP': 5.67
+            };
+            
+            const labels = ['Your Portfolio', ...Object.keys(indexReturns)];
+            const data = [portfolioReturn, ...Object.values(indexReturns)];
+            
+            // Dynamic colors based on performance
+            const colors = data.map((value, index) => {
+                if (index === 0) {
+                    // Portfolio color - green if positive, red if negative
+                    return value >= 0 ? 'rgba(39, 174, 96, 0.8)' : 'rgba(231, 76, 60, 0.8)';
+                } else {
+                    // Index colors - different shades of blue
+                    const blueShades = [
+                        'rgba(52, 152, 219, 0.8)',   // NIFTY 50
+                        'rgba(41, 128, 185, 0.8)',   // NIFTY 500
+                        'rgba(142, 68, 173, 0.8)',   // NIFTY SMALLCAP
+                        'rgba(155, 89, 182, 0.8)',   // NIFTY NEXT 50
+                        'rgba(230, 126, 34, 0.8)'    // NIFTY MIDCAP
+                    ];
+                    return blueShades[index - 1];
+                }
+            });
+            
+            const borderColors = colors.map(color => color.replace('0.8', '1'));
+            
             const ctx = document.getElementById('comparisonChart').getContext('2d');
             comparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Your Portfolio', 'NIFTY 50'],
+                    labels: labels,
                     datasets: [{
                         label: 'Return (%)',
-                        data: [portfolioReturn, niftyReturn],
-                        backgroundColor: [
-                            portfolioReturn >= 0 ? 'rgba(39, 174, 96, 0.8)' : 'rgba(231, 76, 60, 0.8)',
-                            'rgba(52, 152, 219, 0.8)'
-                        ],
-                        borderColor: [
-                            portfolioReturn >= 0 ? 'rgba(39, 174, 96, 1)' : 'rgba(231, 76, 60, 1)',
-                            'rgba(52, 152, 219, 1)'
-                        ],
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: borderColors,
                         borderWidth: 2
                     }]
                 },
@@ -591,48 +635,144 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { 
+                            display: false 
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed.y.toFixed(2)}%`;
+                                },
+                                afterLabel: function(context) {
+                                    if (context.dataIndex === 0) {
+                                        return 'Your Portfolio Performance';
+                                    } else {
+                                        return '1-Year Market Return';
+                                    }
+                                }
+                            }
+                        }
                     },
                     scales: {
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                },
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        },
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 callback: function(value) {
                                     return value + '%';
                                 }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
                             }
                         }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     }
                 }
             });
         }
 
         function createPieChart(labels, data) {
+            // Sort funds by allocation percentage and get top 10
+            const fundData = labels.map((label, index) => ({
+                name: label,
+                weight: data[index] || 0
+            })).sort((a, b) => b.weight - a.weight).slice(0, 10);
+            
+            const sortedLabels = fundData.map(fund => fund.name);
+            const sortedData = fundData.map(fund => fund.weight);
+            
+            // Generate distinct colors using HSL color space for maximum differentiation
+            const generateDistinctColors = (count) => {
+                const colors = [];
+                const saturation = 70;
+                const lightness = 55;
+                
+                for (let i = 0; i < count; i++) {
+                    const hue = (i * 360 / count) % 360;
+                    colors.push(`hsla(${hue}, ${saturation}%, ${lightness}%, 0.8)`);
+                }
+                return colors;
+            };
+            
+            const distinctColors = generateDistinctColors(sortedData.length);
+            const borderColors = distinctColors.map(color => color.replace('0.8', '1'));
+            
             const ctx = document.getElementById('portfolioPieChart').getContext('2d');
             portfolioPieChart = new Chart(ctx, {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
-                    labels: labels.slice(0, 10), // Show top 10 funds
+                    labels: sortedLabels.map(label => {
+                        // Truncate long fund names for better display
+                        return label.length > 25 ? label.substring(0, 22) + '...' : label;
+                    }),
                     datasets: [{
-                        data: data.slice(0, 10),
-                        backgroundColor: [
-                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-                            '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
-                        ],
-                        borderWidth: 2,
-                        borderColor: '#fff'
+                        label: 'Allocation %',
+                        data: sortedData,
+                        backgroundColor: distinctColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    indexAxis: 'y',
                     plugins: {
                         legend: {
-                            position: 'right',
-                            labels: {
-                                boxWidth: 12,
-                                font: { size: 10 }
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.x.toFixed(2)}% allocation`;
+                                },
+                                title: function(tooltipItems) {
+                                    const index = tooltipItems[0].dataIndex;
+                                    return sortedLabels[index]; // Show full name in tooltip
+                                }
                             }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: Math.max(...sortedData) + 2, // Add small buffer instead of multiplication
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(1) + '%';
+                                },
+                                stepSize: Math.max(1, Math.ceil(Math.max(...sortedData) / 10)) // Dynamic step size
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            right: 20
                         }
                     }
                 }
