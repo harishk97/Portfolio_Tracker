@@ -355,10 +355,238 @@
             letter-spacing: -0.01em;
         }
 
+        /* Performance Analysis Section */
+        .performance-analysis {
+            background: var(--surface);
+            margin: 24px;
+            border-radius: 12px;
+            box-shadow: var(--elevation-1);
+            border: 1px solid var(--divider);
+            overflow: hidden;
+        }
+
+        .analysis-header {
+            padding: 24px 24px 16px 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .analysis-header h2 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .analysis-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 20px 24px;
+        }
+
+        .performance-card {
+            background: var(--surface-variant);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--divider);
+            transition: all 0.2s ease;
+        }
+
+        .performance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--elevation-2);
+        }
+
+        .performance-card.top-performers {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .performance-card.average-performers {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .performance-card.underperformers {
+            border-left: 4px solid var(--error-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-header h3 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .performance-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .performance-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .fund-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--divider);
+            transition: all 0.2s ease;
+        }
+
+        .fund-item:last-child {
+            border-bottom: none;
+        }
+
+        .fund-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 8px;
+            margin: 0 -8px;
+            border-radius: 6px;
+        }
+
+        [data-theme="dark"] .fund-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .fund-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fund-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .fund-category {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .fund-metrics {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .fund-xirr {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .fund-return {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .performance-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 20px 24px 24px 24px;
+            background: var(--surface-variant);
+            border-top: 1px solid var(--divider);
+        }
+
+        .summary-card {
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--divider);
+            transition: all 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--elevation-1);
+        }
+
+        .summary-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
         .chart-title {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .info-btn {
+            background: var(--surface-variant);
+            border: 1px solid var(--outline);
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            width: 32px;
+            height: 32px;
+        }
+
+        .info-btn:hover {
+            background: var(--info-color);
+            border-color: var(--info-color);
+            color: white;
+            transform: translateY(-1px);
         }
 
         .enlarge-btn {
@@ -473,6 +701,116 @@
             text-align: center;
             margin-top: 16px;
             font-weight: 400;
+        }
+
+        /* Performance Legend */
+        .performance-legend {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--surface-variant);
+            border-radius: 8px;
+            border: 1px solid var(--divider);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .legend-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border-radius: 6px;
+            border: 1px solid var(--divider);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-item.top-performer .legend-dot {
+            background: var(--success-color);
+        }
+
+        .legend-item.average-performer .legend-dot {
+            background: var(--warning-color);
+        }
+
+        .legend-item.underperformer .legend-dot,
+        .legend-item.underperformer-negative .legend-dot {
+            background: var(--error-color);
+        }
+
+        .legend-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .legend-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Performance Info Modal */
+        .performance-info-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .performance-info-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            width: 90vw;
+            max-width: 600px;
+            box-shadow: var(--elevation-8);
+            border: 1px solid var(--divider);
+        }
+
+        .performance-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .performance-info-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
         }
 
         /* Table Section */
@@ -709,6 +1047,26 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
+            .performance-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px 20px;
+            }
+            
+            .performance-summary {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 16px 20px 20px 20px;
+            }
+            
+            .analysis-header {
+                padding: 20px 20px 12px 20px;
+            }
+            
+            .analysis-header h2 {
+                font-size: 1.125rem;
+            }
+            
             .header {
                 padding: 16px 24px;
                 flex-direction: column;
@@ -738,7 +1096,7 @@
                 height: 300px;
             }
             
-            .upload-section, .kpi-section, .dashboard, .table-section {
+            .upload-section, .kpi-section, .dashboard, .performance-analysis, .table-section {
                 margin: 16px;
             }
 
@@ -748,6 +1106,19 @@
 
             .chart-container canvas {
                 max-height: 220px;
+            }
+
+            .legend-items {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            .legend-title {
+                font-size: 0.75rem;
+            }
+
+            .legend-text {
+                font-size: 0.7rem;
             }
         }
 
@@ -865,6 +1236,88 @@
         </div>
     </div>
 
+    <!-- Fund Performance Analysis Section -->
+    <div id="performance-analysis" class="performance-analysis" style="display: none;">
+        <div class="analysis-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h2>Fund Performance Analysis</h2>
+                    <p class="analysis-subtitle">Categorized by performance vs Nifty 50 (≈12% XIRR benchmark)</p>
+                </div>
+                <button class="info-btn" onclick="showPerformanceInfo()" style="margin-top: 4px;">ℹ️</button>
+            </div>
+        </div>
+        
+        <div class="performance-grid">
+            <!-- Top Performers -->
+            <div class="performance-card top-performers">
+                <div class="card-header">
+                    <h3>🏆 Top Performers</h3>
+                    <span class="performance-count" id="topPerformersCount">0</span>
+                </div>
+                <div class="performance-list" id="topPerformersList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- Average Performers -->
+            <div class="performance-card average-performers">
+                <div class="card-header">
+                    <h3>📊 Average Performers</h3>
+                    <span class="performance-count" id="averagePerformersCount">0</span>
+                </div>
+                <div class="performance-list" id="averagePerformersList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- Underperformers -->
+            <div class="performance-card underperformers">
+                <div class="card-header">
+                    <h3>⚠️ Underperformers</h3>
+                    <span class="performance-count" id="underperformersCount">0</span>
+                </div>
+                <div class="performance-list" id="underperformersList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Summary -->
+        <div class="performance-summary">
+            <div class="summary-card">
+                <div class="summary-stat">
+                    <span class="stat-value" id="avgXIRR">0%</span>
+                    <span class="stat-label">Average XIRR</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-stat">
+                    <span class="stat-value" id="bestXIRR">0%</span>
+                    <span class="stat-label">Best XIRR</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-stat">
+                    <span class="stat-value" id="worstXIRR">0%</span>
+                    <span class="stat-label">Worst XIRR</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-stat">
+                    <span class="stat-value" id="positiveCount">0</span>
+                    <span class="stat-label">Profitable Funds</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-stat">
+                    <span class="stat-value kpi-positive">12.0%</span>
+                    <span class="stat-label">Nifty 50 Benchmark</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data Table Section -->
     <div id="table-section" class="table-section" style="display: none;">
         <div class="table-header">
@@ -920,6 +1373,55 @@
             </div>
             <div class="modal-chart-container">
                 <canvas id="modalChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Info Modal -->
+    <div id="performanceInfoModal" class="performance-info-modal">
+        <div class="performance-info-content">
+            <div class="performance-info-header">
+                <h2 class="performance-info-title">📊 Fund Performance Categories</h2>
+                <button class="close-btn" onclick="closePerformanceInfo()">Close ✕</button>
+            </div>
+            <div class="performance-legend">
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 20px; font-size: 0.875rem;">
+                    Categories based on comparison with Nifty 50 benchmark (≈12% XIRR)
+                </p>
+                <div class="legend-items">
+                    <div class="legend-item top-performer">
+                        <span class="legend-dot"></span>
+                        <div class="legend-text">
+                            <strong>🚀 Top Performer</strong><br>
+                            XIRR ≥ 14% (beating market by 2%+)<br>
+                            <em>Example: 16% XIRR (4% above market)</em>
+                        </div>
+                    </div>
+                    <div class="legend-item average-performer">
+                        <span class="legend-dot"></span>
+                        <div class="legend-text">
+                            <strong>📈 Average Performer</strong><br>
+                            XIRR between 10% - 14% (close to market)<br>
+                            <em>Example: 11% XIRR (1% below market)</em>
+                        </div>
+                    </div>
+                    <div class="legend-item underperformer">
+                        <span class="legend-dot"></span>
+                        <div class="legend-text">
+                            <strong>📉 Underperformer</strong><br>
+                            XIRR between 0% - 10% (below market)<br>
+                            <em>Example: 8% XIRR (4% below market)</em>
+                        </div>
+                    </div>
+                    <div class="legend-item underperformer-negative">
+                        <span class="legend-dot"></span>
+                        <div class="legend-text">
+                            <strong>📉 Poor Performer</strong><br>
+                            XIRR < 0% (losing money)<br>
+                            <em>Example: -2% XIRR (capital loss)</em>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1028,6 +1530,7 @@
             // Show dashboard sections
             document.getElementById('kpi-section').style.display = 'grid';
             document.getElementById('dashboard').style.display = 'grid';
+            document.getElementById('performance-analysis').style.display = 'block';
             document.getElementById('table-section').style.display = 'block';
             
             // Compact the upload section
@@ -1130,6 +1633,9 @@
             // Create charts
             createCharts();
             
+            // Analyze fund performance
+            analyzePerformance();
+            
             // Display table
             displayTable();
         }
@@ -1196,6 +1702,101 @@
             const fundNames = allData.map(fund => fund["Fund Name"]);
             const weights = allData.map(fund => fund["Weight %"]);
             createPieChart(fundNames, weights);
+        }
+
+        function analyzePerformance() {
+            if (allData.length === 0) return;
+            
+            // Nifty 50 benchmark XIRR (approximate 1-year return)
+            const nifty50XIRR = 12.0; // You can adjust this based on current Nifty 50 performance
+            
+            // Calculate performance metrics
+            const xirrValues = allData.map(fund => fund["XIRR %"]);
+            const avgXIRR = xirrValues.reduce((sum, val) => sum + val, 0) / xirrValues.length;
+            const bestXIRR = Math.max(...xirrValues);
+            const worstXIRR = Math.min(...xirrValues);
+            const positiveCount = allData.filter(fund => fund["P&L %"] > 0).length;
+            
+            // Categorize funds based on XIRR performance vs Nifty 50
+            const topPerformers = allData.filter(fund => fund["XIRR %"] > nifty50XIRR + 2).sort((a, b) => b["XIRR %"] - a["XIRR %"]);
+            const underperformers = allData.filter(fund => fund["XIRR %"] < nifty50XIRR - 2 || fund["XIRR %"] < 0).sort((a, b) => a["XIRR %"] - b["XIRR %"]);
+            const averagePerformers = allData.filter(fund => 
+                fund["XIRR %"] >= nifty50XIRR - 2 && 
+                fund["XIRR %"] <= nifty50XIRR + 2 && 
+                fund["XIRR %"] >= 0
+            ).sort((a, b) => b["XIRR %"] - a["XIRR %"]);
+            
+            // Update summary stats
+            document.getElementById('avgXIRR').textContent = avgXIRR.toFixed(2) + '%';
+            document.getElementById('avgXIRR').className = `stat-value ${avgXIRR >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            document.getElementById('bestXIRR').textContent = bestXIRR.toFixed(2) + '%';
+            document.getElementById('bestXIRR').className = `stat-value ${bestXIRR >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            document.getElementById('worstXIRR').textContent = worstXIRR.toFixed(2) + '%';
+            document.getElementById('worstXIRR').className = `stat-value ${worstXIRR >= 0 ? 'kpi-positive' : 'kpi-negative'}`;
+            
+            document.getElementById('positiveCount').textContent = positiveCount;
+            document.getElementById('positiveCount').className = 'stat-value kpi-positive';
+            
+            // Update counts
+            document.getElementById('topPerformersCount').textContent = topPerformers.length;
+            document.getElementById('averagePerformersCount').textContent = averagePerformers.length;
+            document.getElementById('underperformersCount').textContent = underperformers.length;
+            
+            // Populate lists
+            populatePerformanceList('topPerformersList', topPerformers);
+            populatePerformanceList('averagePerformersList', averagePerformers);
+            populatePerformanceList('underperformersList', underperformers);
+        }
+        
+        function populatePerformanceList(containerId, funds) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (funds.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 20px; font-size: 0.875rem;">No funds in this category</div>';
+                return;
+            }
+            
+            funds.slice(0, 10).forEach(fund => { // Show top 10 in each category
+                const fundItem = document.createElement('div');
+                fundItem.className = 'fund-item';
+                
+                // Color based on performance category, not individual XIRR
+                let xirrClass, returnClass;
+                if (containerId === 'topPerformersList') {
+                    xirrClass = 'kpi-positive';
+                    returnClass = 'kpi-positive';
+                } else if (containerId === 'underperformersList') {
+                    xirrClass = 'kpi-negative';
+                    returnClass = 'kpi-negative';
+                } else { // averagePerformersList
+                    xirrClass = fund["XIRR %"] >= 0 ? 'kpi-positive' : 'kpi-negative';
+                    returnClass = fund["P&L %"] >= 0 ? 'kpi-positive' : 'kpi-negative';
+                }
+                
+                fundItem.innerHTML = `
+                    <div class="fund-info">
+                        <div class="fund-name" title="${fund["Fund Name"]}">${fund["Fund Name"]}</div>
+                        <div class="fund-category">${fund["Category"]}</div>
+                    </div>
+                    <div class="fund-metrics">
+                        <div class="fund-xirr ${xirrClass}">${fund["XIRR %"].toFixed(2)}%</div>
+                        <div class="fund-return ${returnClass}">${fund["P&L %"] >= 0 ? '+' : ''}${fund["P&L %"].toFixed(2)}%</div>
+                    </div>
+                `;
+                
+                container.appendChild(fundItem);
+            });
+            
+            // Add "show more" indicator if there are more funds
+            if (funds.length > 10) {
+                const moreIndicator = document.createElement('div');
+                moreIndicator.style.cssText = 'text-align: center; color: var(--text-secondary); padding: 10px; font-size: 0.75rem; opacity: 0.8;';
+                moreIndicator.textContent = `+${funds.length - 10} more funds`;
+                container.appendChild(moreIndicator);
+            }
         }
 
         function createComparisonChart(portfolioReturn) {
@@ -2116,6 +2717,18 @@
                 modalChart.destroy();
                 modalChart = null;
             }
+        }
+
+        function showPerformanceInfo() {
+            const modal = document.getElementById('performanceInfoModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePerformanceInfo() {
+            const modal = document.getElementById('performanceInfoModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         function getChartInstance(chartId) {
